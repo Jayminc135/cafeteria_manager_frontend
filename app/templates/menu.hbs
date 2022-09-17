@@ -1,0 +1,31 @@
+<div class="accordion accordion-flush" id="accordionFlushExample">
+
+  {{#each @model.menucategories as |menu|}}
+    <div class="accordion-item">
+      <h2 class="accordion-header" id = {{concat "flush-heading_" menu.id}}>
+        <button class="accordion-button collapsed" type="button" {{on "click" (fn this.fetchitems menu.id)}} data-bs-toggle="collapse" data-bs-target={{concat "#flush-collapse_" menu.id}} aria-expanded="false" aria-controls={{concat "flush-collapse_" menu.id}}>
+          {{menu.name}} {{menu.id}}
+        </button>
+      </h2>
+      <div id={{concat "flush-collapse_" menu.id}} class="accordion-collapse collapse" aria-labelledby={{concat "flush-heading_" menu.id}} data-bs-parent="#accordionFlushExample">
+        <div class="accordion-body">
+          {{#each this.menuitems as |item|}}
+            {{item.name}} {{item.description}} {{item.price}}
+            {{!-- {{#if this.Addbutton_clicked}} 
+              <div class="def-number-input number-input safari_only">
+                <button type="button" onclick="this.parentNode.querySelector('input[type=number]').stepDown()" class="minus"></button>
+                <input class="quantity" min="0" name="quantity" value="1" type="number">
+                <button type="button" onclick="this.parentNode.querySelector('input[type=number]').stepUp()" class="plus"></button>
+              </div>
+            {{else}} --}}
+            <button type="button" {{on "click" (fn this.AddtoCart menu.id item.id)}} class="btn btn-info">Add to cart</button>
+            {{!-- {{/if}} --}}
+            <br/>
+          {{/each}}
+        </div>
+      </div>
+    </div>
+  {{/each}}
+
+</div>
+{{outlet}}

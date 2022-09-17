@@ -1,26 +1,27 @@
 import Controller from '@ember/controller';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
+import config from '../config/environment';
 
 export default class SigninController extends Controller {
     @tracked email = '';
     @tracked password = '';
+    not_authenticated = false;
 
     @action
     async signinuser() {
-        const user = {
-            email: this.email,
-            password: this.password
+        const url = config.APP.URL;
+        let response = await fetch(url + '/sessions?email=' + this.email + '&password=' + this.password);
+        if(response.status == 200) {
+            this.set("not_authenticated", false);
+            let user = await response.json();
+            localStorage.setItem("UserId", user.id);
+            localStorage.setItem("UserName", user.first_name);
+            localStorage.setItem("email", user.email);
+            localStorage.setItem("role", user.role);
         }
-        const response = await fetch('http://localhost:3000/sessions', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(user)
-        });
-        if (response.ok) {
-            console.log("Verified");
-        } else {
-            console.log("Not verified");
+        else {
+            this.set("not_authenticated", true);
         }
     }
 }

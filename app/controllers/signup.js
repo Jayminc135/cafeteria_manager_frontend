@@ -1,6 +1,7 @@
 import Controller from '@ember/controller';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
+import config from '../config/environment';
 
 export default class SignupController extends Controller {
     @tracked first_name = '';
@@ -17,7 +18,8 @@ export default class SignupController extends Controller {
             role: "customer",
             password: this.password
         }
-        const response = await fetch('http://localhost:3000/users', {
+        const url = config.APP.URL;
+        const response = await fetch(url + '/users', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(user)
@@ -26,7 +28,6 @@ export default class SignupController extends Controller {
         if (response.statusText == "Created") {
             console.log("Created");
             this.transitionToRoute('signin');
-            //this.get('router').transitionTo('signin');
         } else {
             console.log("Not Created");
         }
