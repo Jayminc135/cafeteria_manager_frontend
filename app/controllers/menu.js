@@ -24,7 +24,7 @@ export default class MenuController extends Controller {
             menu_item_id: item_id
         }
         const url = config.APP.URL;
-        const response = await fetch(url + '/cart', {
+        const response = await fetch(url + '/addtocart', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(cart)

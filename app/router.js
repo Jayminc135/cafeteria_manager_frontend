@@ -10,4 +10,6 @@ Router.map(function() {
   this.route('signup');
   this.route('signin');
   this.route('menu');
+  this.route('cart');
+  this.route('order');
 });

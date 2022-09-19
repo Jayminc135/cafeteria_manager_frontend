@@ -1,0 +1,20 @@
+<ul class="list-group list-group-light">
+    {{#each @model.cart as |cart_item|}}
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+            <div>
+                <div class="fw-bold">{{cart_item.menu_item_name}}</div>
+                <div class="text-muted">Price: &#8377;{{cart_item.menu_item_price}}</div>
+            </div>
+            <input type="number" min="0" class="ml-auto" {{on "change" (fn this.changeQuantity cart_item.id)}} value={{cart_item.quantity}}>
+        </li>
+    {{/each}}
+    <p>Total Price: 
+        {{#if this.updated}}
+            {{this.TotalPrice}}
+        {{else}}
+            {{@model.price}}
+        {{/if}}
+    </p>
+    <button type="button" {{on "click" this.redirect}} class="btn btn-info">Place the order</button>
+</ul>
+{{outlet}}

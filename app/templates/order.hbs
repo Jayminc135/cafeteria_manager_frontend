@@ -1,0 +1,41 @@
+{{#each @model.orders as |order|}}
+  <button type="button" {{on "click" (fn this.fetchitems order.id)}} class="btn btn-primary" data-mdb-toggle="modal" data-mdb-target="#exampleModal">
+    User id: {{order.user_id}}<br/> Date: {{order.date}}<br/> <mark>{{order.status}}</mark>
+  </button>
+
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Thanks for ordering</h5>
+          <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <ul class="list-unstyled">
+              <li class="text-black">{{this.name}}</li>
+              <li class="text-muted mt-1"><span class="text-black">Invoice</span> #{{this.firstitem.order_id}}</li>
+              <li class="text-black mt-1">{{order.date}}</li>
+            </ul>
+          </div>
+          {{#each this.items as |item|}}
+            <hr>
+            <div class="row">
+              <div class="col-xl-10">
+                <p>{{item.menu_item_name}} ({{item.quantity}})</p>
+              </div>
+              <div class="col-xl-2">
+                <p class="float-end">&#8377;{{item.menu_item_price}}</p>
+              </div>
+            </div>
+          {{/each}}
+        </div>
+        <div class="modal-footer">
+          <p class="float-end fw-bold">Total: &#8377;{{this.total}}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <br/>
+{{/each}}
+{{outlet}}
