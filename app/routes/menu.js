@@ -1,7 +1,5 @@
 import Route from '@ember/routing/route';
 import config from '../config/environment';
-//import MenucategoryModel from '../models/menucategory';
-//import RSVP from 'rsvp';
 
 export default class MenuRoute extends Route {
     async model() {

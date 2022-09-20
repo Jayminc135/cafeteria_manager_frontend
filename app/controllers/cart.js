@@ -56,10 +56,10 @@ export default class CartController extends Controller {
             }
 
             //delete cart items
-            const result = await fetch(url + '/clearcart/' + localStorage.getItem('UserId'), {
+            let result = await fetch(url + '/clearcart/' + localStorage.getItem('UserId'), {
                 method: 'DELETE'
             });
         }
-        this.transitionToRoute('order');
+        this.transitionToRoute('orders');
     }
 }

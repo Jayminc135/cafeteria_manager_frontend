@@ -11,5 +11,5 @@ Router.map(function() {
   this.route('signin');
   this.route('menu');
   this.route('cart');
-  this.route('order');
+  this.route('orders');
 });

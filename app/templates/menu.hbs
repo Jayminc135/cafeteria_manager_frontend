@@ -10,17 +10,15 @@
       <div id={{concat "flush-collapse_" menu.id}} class="accordion-collapse collapse" aria-labelledby={{concat "flush-heading_" menu.id}} data-bs-parent="#accordionFlushExample">
         <div class="accordion-body">
           {{#each this.menuitems as |item|}}
-            {{item.name}} {{item.description}} {{item.price}}
-            {{!-- {{#if this.Addbutton_clicked}} 
-              <div class="def-number-input number-input safari_only">
-                <button type="button" onclick="this.parentNode.querySelector('input[type=number]').stepDown()" class="minus"></button>
-                <input class="quantity" min="0" name="quantity" value="1" type="number">
-                <button type="button" onclick="this.parentNode.querySelector('input[type=number]').stepUp()" class="plus"></button>
-              </div>
-            {{else}} --}}
-            <button type="button" {{on "click" (fn this.AddtoCart menu.id item.id)}} class="btn btn-info">Add to cart</button>
-            {{!-- {{/if}} --}}
-            <br/>
+            <ul class="list-unstyled">
+              <li class="text-black fw-bold">{{item.name}}</li>
+              <li class="text-black">Description: {{item.description}}</li>
+              <button type="button" {{on "click" (fn this.AddtoCart menu.id item.id)}} class="btn btn-info float-end">Add to cart</button>
+              <li class="text-black">Price: &#8377;{{item.price}}</li>
+            </ul>
+            {{!-- {{item.name}} {{item.description}} {{item.price}} 
+            <button type="button" {{on "click" (fn this.AddtoCart menu.id item.id)}} class="btn btn-info">Add to cart</button> --}}
+            <hr>
           {{/each}}
         </div>
       </div>
@@ -28,4 +26,6 @@
   {{/each}}
 
 </div>
+
+<button type="button" {{on "click" this.redirect}} class="btn btn-info">Checkout</button>
 {{outlet}}

@@ -1,0 +1,25 @@
+import Route from '@ember/routing/route';
+import config from '../config/environment';
+import RSVP from 'rsvp';
+
+export default class OrdersRoute extends Route {
+    async model() {
+        const url = config.APP.URL;
+        let response;
+        if(localStorage.getItem('role') == 'owner')
+            response = await fetch(url + '/getorders');
+        else
+            response = await fetch(url + '/getorders?userid=' + localStorage.getItem('UserId'));
+
+        let orders = await response.json();
+
+        let isOwner = false;
+        if(localStorage.getItem('role') == 'owner') {
+            isOwner = true;
+        }  
+        return RSVP.hash ({ 
+            orders: orders,
+            isOwner: isOwner
+        });
+    }
+}

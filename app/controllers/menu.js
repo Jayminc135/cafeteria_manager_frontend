@@ -6,6 +6,7 @@ import { tracked } from '@glimmer/tracking';
 export default class MenuController extends Controller {
     menuitems = {};
     @tracked Addbutton_clicked = false; 
+    
     @action
     async fetchitems(id) {
         const url = config.APP.URL;
@@ -35,5 +36,10 @@ export default class MenuController extends Controller {
         } else {
             console.log("Not Created");
         }
+    }
+
+    @action
+    redirect() {
+        this.transitionToRoute('cart');
     }
 }
