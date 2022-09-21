@@ -13,13 +13,13 @@ export default class OrdersRoute extends Route {
 
         let orders = await response.json();
 
-        let isOwner = false;
-        if(localStorage.getItem('role') == 'owner') {
-            isOwner = true;
+        let isCustomer = false;
+        if(localStorage.getItem('role') == 'customer') {
+            isCustomer = true;
         }  
         return RSVP.hash ({ 
             orders: orders,
-            isOwner: isOwner
+            isCustomer: isCustomer
         });
     }
 }

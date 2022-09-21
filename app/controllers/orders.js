@@ -34,10 +34,16 @@ export default class OrdersController extends Controller {
             this.set("isorderpending", false);
         }
 
-        //fetch user of the order
-        let res = await fetch(url + '/getuser?userid=' + userid);
-        let user = await res.json();
-        this.set("username", user.first_name + ' ' + user.last_name);
+        let _role = localStorage.getItem("role");
+        if(_role == "clerk")
+            this.set("username", "Walk-in customer");
+        else
+        {
+            //fetch user of the order
+            let res = await fetch(url + '/getuser?userid=' + userid);
+            let user = await res.json();
+                this.set("username", user.first_name + ' ' + user.last_name);
+        }
     }
 
     @action

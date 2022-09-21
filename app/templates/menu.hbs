@@ -4,7 +4,7 @@
     <div class="accordion-item">
       <h2 class="accordion-header" id = {{concat "flush-heading_" menu.id}}>
         <button class="accordion-button collapsed" type="button" {{on "click" (fn this.fetchitems menu.id)}} data-bs-toggle="collapse" data-bs-target={{concat "#flush-collapse_" menu.id}} aria-expanded="false" aria-controls={{concat "flush-collapse_" menu.id}}>
-          {{menu.name}} {{menu.id}}
+          {{menu.name}}
         </button>
       </h2>
       <div id={{concat "flush-collapse_" menu.id}} class="accordion-collapse collapse" aria-labelledby={{concat "flush-heading_" menu.id}} data-bs-parent="#accordionFlushExample">
@@ -13,19 +13,71 @@
             <ul class="list-unstyled">
               <li class="text-black fw-bold">{{item.name}}</li>
               <li class="text-black">Description: {{item.description}}</li>
-              <button type="button" {{on "click" (fn this.AddtoCart menu.id item.id)}} class="btn btn-info float-end">Add to cart</button>
+              <button type="button" {{on "click" (fn this.AddtoCart menu.id item.id item.name item.price)}} class="btn btn-primary float-end">Add to cart</button>
               <li class="text-black">Price: &#8377;{{item.price}}</li>
             </ul>
-            {{!-- {{item.name}} {{item.description}} {{item.price}} 
-            <button type="button" {{on "click" (fn this.AddtoCart menu.id item.id)}} class="btn btn-info">Add to cart</button> --}}
             <hr>
           {{/each}}
+
+          {{#if @model.isOwner}}
+            <button type="button" class="btn btn-primary" data-mdb-toggle="modal" data-mdb-target="{{concat "#Modal_" menu.id}}">
+            Add item
+            </button>
+
+            <div class="modal fade" id="{{concat "Modal_" menu.id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Add item</h5>
+                    <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    <label class="form-label" for="typeText">Item name</label>
+                    <Input type="text" @value={{this.item_name}} class="form-control"/><br/>
+                    <label class="form-label" for="typeText">Price</label>
+                    <Input type="text" @value={{this.price}} class="form-control"/><br/>
+                    <label class="form-label" for="typeText">Description</label>
+                    <Input type="text" @value={{this.description}} class="form-control"/>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">Close</button>
+                    <button type="button" {{on "click" (fn this.saveItem menu.id)}} class="btn btn-primary">Save changes</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          {{/if}}
+
         </div>
       </div>
     </div>
   {{/each}}
+  {{#if @model.isOwner}}
+    <button type="button" class="btn btn-primary" data-mdb-toggle="modal" data-mdb-target="#exampleModal">
+    Add category
+    </button>
 
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Add category</h5>
+            <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+              <label class="form-label" for="typeText">Category name</label>
+              <Input type="text" @value={{this.category_name}} class="form-control"/>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">Close</button>
+            <button type="button" {{on "click" this.saveCategory}} class="btn btn-primary">Save changes</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  {{/if}}
 </div>
-
-<button type="button" {{on "click" this.redirect}} class="btn btn-info">Checkout</button>
+{{#unless @model.isOwner}}
+  <button type="button" {{on "click" this.redirect}} class="btn btn-primary">Checkout</button>
+{{/unless}}
 {{outlet}}

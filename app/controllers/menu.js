@@ -5,7 +5,10 @@ import { tracked } from '@glimmer/tracking';
 
 export default class MenuController extends Controller {
     menuitems = {};
-    @tracked Addbutton_clicked = false; 
+    @tracked item_name = '';
+    @tracked price = '';
+    @tracked description = '';
+    @tracked category_name = '';
     
     @action
     async fetchitems(id) {
@@ -17,12 +20,13 @@ export default class MenuController extends Controller {
     }
 
     @action
-    async AddtoCart(category_id, item_id) {
-        this.set("Addbutton_clicked", true);
+    async AddtoCart(menu_category_id, menu_item_id, menu_item_name, menu_item_price) {
         const cart = {
             user_id: localStorage.getItem('UserId'),
-            menu_category_id: category_id,
-            menu_item_id: item_id
+            menu_category_id: menu_category_id,
+            menu_item_id: menu_item_id,
+            menu_item_name: menu_item_name,
+            menu_item_price: menu_item_price
         }
         const url = config.APP.URL;
         const response = await fetch(url + '/addtocart', {
@@ -36,6 +40,34 @@ export default class MenuController extends Controller {
         } else {
             console.log("Not Created");
         }
+    }
+
+    @action 
+    async saveItem(category_id) {
+        const item = {
+            category_id: category_id,
+            item_name: this.item_name,
+            description: this.description,
+            price: this.price
+        }
+        const url = config.APP.URL;
+        const response = await fetch(url + '/addmenuitem', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(item)
+        });
+        console.log(response);
+    }
+
+    @action
+    async saveCategory() {
+        const url = config.APP.URL;
+        const response = await fetch(url + '/addmenucategory', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({category_name: this.category_name})
+        });
+        console.log(response);
     }
 
     @action

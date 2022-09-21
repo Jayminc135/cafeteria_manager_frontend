@@ -32,24 +32,26 @@
           <hr>
           <p class="float-end fw-bold">Total: &#8377;{{this.total}}</p>
         </div>
-        {{#if @model.isOwner}}
-          <div class="modal-footer">
-          {{#if this.isorderpending}}
-            <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="" id={{concat "flexCheckDefault_" order.id}}>
-              <label class="form-check-label" for={{concat "flexCheckDefault_" order.id}}>
-                Mark as delivered
-              </label>
+        {{#if this.isorderpending}}
+          {{#unless @model.isCustomer}}
+            <div class="modal-footer">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id={{concat "flexCheckDefault_" order.id}}>
+                <label class="form-check-label" for={{concat "flexCheckDefault_" order.id}}>
+                  Mark as delivered
+                </label>
+              </div>
+              <button type="button" {{on "click" (fn this.save order.id)}} class="btn btn-info">Save</button>   
             </div>
-            <button type="button" {{on "click" (fn this.save order.id)}} class="btn btn-info">Save</button>   
-          {{else}}
+          {{/unless}}
+        {{else}}
+          <div class="modal-footer">
             <div class="form-check">
               <input class="form-check-input" type="checkbox" value="" id="flexCheckCheckedDisabled" checked disabled>
               <label class="form-check-label" for="flexCheckCheckedDisabled">
                 Delivered
               </label>
             </div>
-          {{/if}}
           </div>
         {{/if}}
       </div>
