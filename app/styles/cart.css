@@ -1,0 +1,33 @@
+.cartsz {
+    /* margin: 50px 200px 0 200px; */
+    margin: 20px 400px 0 400px;
+}
+
+.title_cart {
+    margin: 30px 400px 0 430px;
+}
+
+.items {
+    margin-left: 30px;
+}
+
+.quantitybtn {
+    margin-right: 30px;
+}
+
+.price {
+    float: right;
+    margin-top: 20px;
+    margin-right: 470px;
+    font-weight: 400;
+}
+
+.cart_price {
+    margin-top: 10px;
+    font-size: 17px;
+    font-weight: 400;
+}
+
+.cart_name {
+    font-weight: 450;
+}

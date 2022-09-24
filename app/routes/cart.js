@@ -3,6 +3,12 @@ import config from '../config/environment';
 import RSVP from 'rsvp';
 
 export default class CartRoute extends Route {
+    beforeModel() {
+        if(localStorage.getItem("IsAuthenticated") != "true") {
+            this.transitionTo('signup');
+        }
+    }
+
     async model() {
         const url = config.APP.URL;
         let response = await fetch(url + '/getcart?userid=' + localStorage.getItem('UserId'));
@@ -11,9 +17,14 @@ export default class CartRoute extends Route {
         for (let i = 0; i < cart.length; i++) { 
             total += (cart[i].menu_item_price * cart[i].quantity); 
         }
+        let isCartEmpty = false;
+        if(cart.length == 0)
+            isCartEmpty = true;
+            
         return RSVP.hash({ 
             cart: cart,
-            price: total 
+            price: total,
+            isCartEmpty: isCartEmpty
         });
     }
 }

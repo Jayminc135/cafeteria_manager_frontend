@@ -12,4 +12,5 @@ Router.map(function() {
   this.route('menu');
   this.route('cart');
   this.route('orders');
+  this.route('signout');
 });

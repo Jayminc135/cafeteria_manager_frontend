@@ -7,8 +7,10 @@ export default class MenuController extends Controller {
     menuitems = {};
     @tracked item_name = '';
     @tracked price = '';
-    @tracked description = '';
     @tracked category_name = '';
+    @tracked empty_categoryname = false;
+    @tracked empty_itemname = false;
+    @tracked empty_itemprice = false;
     
     @action
     async fetchitems(id) {
@@ -44,30 +46,52 @@ export default class MenuController extends Controller {
 
     @action 
     async saveItem(category_id) {
-        const item = {
-            category_id: category_id,
-            item_name: this.item_name,
-            description: this.description,
-            price: this.price
+        let valid_input = true;
+        this.empty_itemname = false;
+        this.empty_itemprice = false;
+        
+        if(this.item_name.trim() == "") {
+            this.empty_itemname = true;
+            valid_input = false;
         }
-        const url = config.APP.URL;
-        const response = await fetch(url + '/addmenuitem', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(item)
-        });
-        console.log(response);
+        if(this.price.trim() == "") {
+            this.empty_itemprice = true;
+            valid_input = false;
+        }
+
+        if(valid_input) {
+            let description = document.getElementById('textarea_' + category_id);
+            const item = {
+                category_id: category_id,
+                item_name: this.item_name.trim(),
+                description: description.value.trim(),
+                price: this.price.trim()
+            }
+            const url = config.APP.URL;
+            const response = await fetch(url + '/addmenuitem', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(item)
+            });
+            console.log(response);
+        }
     }
 
     @action
     async saveCategory() {
-        const url = config.APP.URL;
-        const response = await fetch(url + '/addmenucategory', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({category_name: this.category_name})
-        });
-        console.log(response);
+        this.empty_categoryname = false;
+        if(this.category_name.trim() == "") {
+            this.empty_categoryname = true;
+        }
+        else {
+            const url = config.APP.URL;
+            const response = await fetch(url + '/addmenucategory', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({category_name: this.category_name.trim()})
+            });
+            console.log(response);
+        }
     }
 
     @action

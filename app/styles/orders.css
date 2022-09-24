@@ -1,0 +1,14 @@
+.ordersContainer {
+    margin: 20px 400px 0 400px;
+}
+
+.btn_order {
+    /* width: 200px;
+    height: 90px; */
+    width: 240px;
+    height: 110px;
+}
+
+.order_wt {
+    font-size: 14px;
+}

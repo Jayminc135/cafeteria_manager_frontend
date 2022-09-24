@@ -1,20 +1,27 @@
+<Header/>
+<h2 class="title_cart">Orders</h2>
+<div class="ordersContainer">
 {{#each @model.orders as |order|}}
-  <button type="button" {{on "click" (fn this.fetchitems order.id order.status order.user_id)}} class="btn btn-primary" data-mdb-toggle="modal" data-mdb-target={{concat "#Modal_" order.id}}>
-    User id: {{order.user_id}}<br/> Date: {{order.date}}<br/> <mark>{{order.status}}</mark>
+  <button type="button" {{on "click" (fn this.fetchitems order.id order.status order.user_id)}} class="btn btn-primary btn_order mt-3" data-mdb-toggle="modal" data-mdb-target={{concat "#Modal_" order.id}}>
+    <div class="d-flex flex-column order_wt">
+      <div class="p-1">Customer id: {{order.user_id}}</div>
+      <div class="p-1">Date: {{order.date}}</div> 
+      <div class="p-2"><mark>{{order.status}}</mark></div>
+    </div>
   </button>
 
   <div class="modal fade" id={{concat "Modal_" order.id}} tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Thanks for ordering</h5>
+          <h5 class="modal-title itemname_weight" id="exampleModalLabel">Thanks for ordering</h5>
           <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
           <div class="row">
             <ul class="list-unstyled">
-              <li class="text-black">{{this.username}}</li>
-              <li class="text-muted mt-1"><span class="text-black">Invoice</span> #{{this.firstitem.order_id}}</li>
+              <li class="text-black">Customer: {{this.username}}</li>
+              <li class="text-muted mt-1"><span class="text-black">Invoice</span> #{{order.id}}</li>
               <li class="text-black mt-1">{{order.date}}</li>
             </ul>
           </div>
@@ -30,7 +37,7 @@
             </div>
           {{/each}}
           <hr>
-          <p class="float-end fw-bold">Total: &#8377;{{this.total}}</p>
+          <p class="float-end itemname_weight">Total: &#8377;{{this.total}}</p>
         </div>
         {{#if this.isorderpending}}
           {{#unless @model.isCustomer}}
@@ -41,7 +48,7 @@
                   Mark as delivered
                 </label>
               </div>
-              <button type="button" {{on "click" (fn this.save order.id)}} class="btn btn-info">Save</button>   
+              <button type="button" {{on "click" (fn this.save order.id)}} class="btn btn-primary">Save</button>   
             </div>
           {{/unless}}
         {{else}}
@@ -59,4 +66,5 @@
   </div>
   <br/>
 {{/each}}
+</div>
 {{outlet}}

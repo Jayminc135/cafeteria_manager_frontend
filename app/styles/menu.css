@@ -83,3 +83,35 @@
       }
     }
   }
+
+
+  .accordionsz {
+    margin: 20px 400px 0 400px;
+  }
+
+  .btnsz {
+    margin-top: 40px;
+  }
+
+  .title_menu {
+    margin: 30px 400px 0 420px;
+  }
+
+  .desc_weight {
+    font-size: 15px;
+    max-width: 750px;
+  }
+
+  .menu_price {
+    margin-top: 15px;
+    font-size: 18px;
+    font-weight: 400;
+  }
+
+  .addcategory_btn {
+    margin-top: 20px;
+  }
+
+  .itemname_weight {
+    font-weight: 400;
+  }

@@ -1,4 +1,6 @@
-<div class="accordion accordion-flush" id="accordionFlushExample">
+<Header/>
+<h2 class="title_menu">Menu</h2>
+<div class="accordion accordion-flush accordionsz" id="accordionFlushExample">
 
   {{#each @model.menucategories as |menu|}}
     <div class="accordion-item">
@@ -11,18 +13,20 @@
         <div class="accordion-body">
           {{#each this.menuitems as |item|}}
             <ul class="list-unstyled">
-              <li class="text-black fw-bold">{{item.name}}</li>
-              <li class="text-black">Description: {{item.description}}</li>
-              <button type="button" {{on "click" (fn this.AddtoCart menu.id item.id item.name item.price)}} class="btn btn-primary float-end">Add to cart</button>
-              <li class="text-black">Price: &#8377;{{item.price}}</li>
+              <li class="text-black itemname_weight">{{item.name}}</li>
+              <li class="text-black desc_weight">{{item.description}}</li>
+              {{#unless @model.isOwner}}
+                <button type="button" {{on "click" (fn this.AddtoCart menu.id item.id item.name item.price)}} class="btn btn-primary float-end">Add to cart</button>
+              {{/unless}}
+              <li class="text-black menu_price">&#8377;{{item.price}}</li>
             </ul>
             <hr>
           {{/each}}
 
           {{#if @model.isOwner}}
-            <button type="button" class="btn btn-primary" data-mdb-toggle="modal" data-mdb-target="{{concat "#Modal_" menu.id}}">
-            Add item
-            </button>
+            <center>
+              <button type="button" class="btn btn-primary" data-mdb-toggle="modal" data-mdb-target="{{concat "#Modal_" menu.id}}">Add item</button>
+            </center>
 
             <div class="modal fade" id="{{concat "Modal_" menu.id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
               <div class="modal-dialog modal-dialog-centered">
@@ -32,12 +36,35 @@
                     <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
                   </div>
                   <div class="modal-body">
-                    <label class="form-label" for="typeText">Item name</label>
-                    <Input type="text" @value={{this.item_name}} class="form-control"/><br/>
-                    <label class="form-label" for="typeText">Price</label>
-                    <Input type="text" @value={{this.price}} class="form-control"/><br/>
-                    <label class="form-label" for="typeText">Description</label>
-                    <Input type="text" @value={{this.description}} class="form-control"/>
+                    <form>
+                      <div class="m-3 mb-4">
+                        <div class="form-outline">
+                          <Input type="text" @value={{this.item_name}} class="form-control form-control-lg"/>
+                          <label class="form-label" for="form3Example1cg">Item name</label>
+                        </div>
+                        {{#if this.empty_itemname}}
+                          <p class="text-danger fs-6 txt_weight">Item name is required</p>
+                        {{/if}}
+                      </div>
+                      <div class="m-3 mb-4">
+                        <div class="form-outline">
+                          <Input type="text" @value={{this.price}} class="form-control form-control-lg"/>
+                          <label class="form-label" for="form3Example1cg">Price</label>
+                        </div>
+                        {{#if this.empty_itemprice}}
+                          <p class="text-danger fs-6 txt_weight">Price is required</p>
+                        {{/if}}
+                      </div>
+                      <div class="form-outline m-3 mb-4">
+                        <textarea class="form-control" id="{{concat "textarea_" menu.id}}" rows="4"></textarea>
+                        <label class="form-label" for="form3Example1cg">Description</label>
+                      </div>
+                    </form>
+                    <script>
+                      document.querySelectorAll('.form-outline').forEach((formOutline) => {
+                      new mdb.Input(formOutline).init();
+                      });
+                    </script>
                   </div>
                   <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">Close</button>
@@ -53,9 +80,9 @@
     </div>
   {{/each}}
   {{#if @model.isOwner}}
-    <button type="button" class="btn btn-primary" data-mdb-toggle="modal" data-mdb-target="#exampleModal">
-    Add category
-    </button>
+    <center>
+      <button type="button" class="btn btn-primary addcategory_btn" data-mdb-toggle="modal" data-mdb-target="#exampleModal">Add category</button>
+    </center>
 
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered">
@@ -65,8 +92,24 @@
             <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-              <label class="form-label" for="typeText">Category name</label>
-              <Input type="text" @value={{this.category_name}} class="form-control"/>
+              {{!-- <div class="form-outline">
+                <Input type="text" id="menu" @value={{this.category_name}} class="form-control form-control-lg"/>
+                <label class="form-label" for="menu">Category name</label>
+              </div> --}}
+              <div class="m-3">
+                <div class="form-outline">
+                  <Input type="text" @value={{this.category_name}} class="form-control form-control-lg"/>
+                  <label class="form-label" for="typeText">Category name</label>
+                </div>
+                {{#if this.empty_categoryname}}
+                  <p class="text-danger fs-6 txt_weight">Category name is required</p>
+                {{/if}}
+                </div>
+              <script>
+                document.querySelectorAll('.form-outline').forEach((formOutline) => {
+                new mdb.Input(formOutline).init();
+                });
+              </script>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">Close</button>
@@ -78,6 +121,6 @@
   {{/if}}
 </div>
 {{#unless @model.isOwner}}
-  <button type="button" {{on "click" this.redirect}} class="btn btn-primary">Checkout</button>
+  <center><button type="button" {{on "click" this.redirect}} class="btn btn-primary btnsz">Checkout</button></center>
 {{/unless}}
 {{outlet}}
