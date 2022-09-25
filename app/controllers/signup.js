@@ -37,6 +37,7 @@ export default class SignupController extends Controller {
             valid_input = false
         }
 
+        //if all fields are valid then send a request to create a user
         if(valid_input) {
             const user = {
                 first_name: this.first_name.trim(),
@@ -51,13 +52,10 @@ export default class SignupController extends Controller {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(user)
             });
-            console.log(response);
             if (response.statusText == "Created") {
-                console.log("Created");
                 this.transitionToRoute('signin');
             } else {
                 this.is_emailregistered = true;
-                console.log("Not Created");
             }
         }
     }

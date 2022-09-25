@@ -6,13 +6,13 @@ import { tracked } from '@glimmer/tracking';
 export default class CartController extends Controller {
     @tracked TotalPrice = 0;
     @tracked updated = false;
+    
     @action
     async changeQuantity(cart_id) {
         const url = config.APP.URL;
         const response = await fetch(url + '/updatequantity?cart_id=' + cart_id + '&quantity=' + event.target.value);
         let price = await response.json();
-        console.log(price);
-        this.set("updated",true);
+        this.set("updated", true);
         this.set("TotalPrice", price);
     }
 
@@ -26,6 +26,7 @@ export default class CartController extends Controller {
                 user_id: localStorage.getItem('UserId'),
                 status: "pending delivery"
             }
+
             //create order
             const res = await fetch(url + '/addorder', {
             method: 'POST',
@@ -52,7 +53,6 @@ export default class CartController extends Controller {
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(orderitem)
                 });
-                console.log(res);
             }
 
             //delete cart items

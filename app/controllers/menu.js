@@ -11,13 +11,14 @@ export default class MenuController extends Controller {
     @tracked empty_categoryname = false;
     @tracked empty_itemname = false;
     @tracked empty_itemprice = false;
+    @tracked iscategorySaved = false;
+    @tracked isitemSaved = false;
     
     @action
     async fetchitems(id) {
         const url = config.APP.URL;
         let response = await fetch(url + '/menuitems?id=' + id);
         let items = await response.json();
-        //console.log(items);
         this.set("menuitems",items);
     }
 
@@ -36,7 +37,6 @@ export default class MenuController extends Controller {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(cart)
         });
-        console.log(response);
         if (response.statusText == "Created") {
             console.log("Created");
         } else {
@@ -44,8 +44,17 @@ export default class MenuController extends Controller {
         }
     }
 
+    @action
+    setitem(category_id) {
+        let description = document.getElementById('textarea_' + category_id);
+        this.set("item_name", "");
+        this.set("price", "");
+        description.value = "";
+    }
+
     @action 
     async saveItem(category_id) {
+        this.isitemSaved = false;
         let valid_input = true;
         this.empty_itemname = false;
         this.empty_itemprice = false;
@@ -78,7 +87,13 @@ export default class MenuController extends Controller {
     }
 
     @action
+    setcategory() {
+        this.set("category_name", "");
+    }
+
+    @action
     async saveCategory() {
+        this.iscategorySaved = false;
         this.empty_categoryname = false;
         if(this.category_name.trim() == "") {
             this.empty_categoryname = true;
@@ -91,6 +106,9 @@ export default class MenuController extends Controller {
             body: JSON.stringify({category_name: this.category_name.trim()})
             });
             console.log(response);
+            if(response.statusText = "Created") {
+                this.iscategorySaved = true;
+            }
         }
     }
 

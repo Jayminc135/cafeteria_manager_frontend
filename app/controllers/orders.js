@@ -7,7 +7,6 @@ export default class OrdersController extends Controller {
     @tracked items = {};
     @tracked firstitem = {};
     @tracked total;
-    @tracked name = localStorage.getItem('UserName');
     @tracked isorderpending = false;
     @tracked username = "";
     
@@ -51,6 +50,7 @@ export default class OrdersController extends Controller {
         //check if checkbox is checked or not
         let checkBox = document.getElementById('flexCheckDefault_' + order_id);
         if(checkBox.checked) {
+            this.set("isorderpending", false);
             const url = config.APP.URL;
             let response = await fetch(url + '/changeorderstatus/' + order_id, {
                 method: 'PUT'
