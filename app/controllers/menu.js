@@ -50,11 +50,13 @@ export default class MenuController extends Controller {
         this.set("item_name", "");
         this.set("price", "");
         description.value = "";
+        this.set('isitemSaved', false);
+        this.set('empty_itemname', false);
+        this.set('empty_itemprice', false);
     }
 
     @action 
     async saveItem(category_id) {
-        this.isitemSaved = false;
         let valid_input = true;
         this.empty_itemname = false;
         this.empty_itemprice = false;
@@ -82,18 +84,21 @@ export default class MenuController extends Controller {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(item)
             });
-            console.log(response);
+            if(response.statusText == "Created") {
+                this.set('isitemSaved', true);
+            }
         }
     }
 
     @action
     setcategory() {
         this.set("category_name", "");
+        this.set('iscategorySaved', false);
+        this.set('empty_categoryname', false);
     }
 
     @action
     async saveCategory() {
-        this.iscategorySaved = false;
         this.empty_categoryname = false;
         if(this.category_name.trim() == "") {
             this.empty_categoryname = true;
@@ -105,9 +110,8 @@ export default class MenuController extends Controller {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({category_name: this.category_name.trim()})
             });
-            console.log(response);
-            if(response.statusText = "Created") {
-                this.iscategorySaved = true;
+            if(response.statusText == "Created") {
+                this.set('iscategorySaved', true);
             }
         }
     }

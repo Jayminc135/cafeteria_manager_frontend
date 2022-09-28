@@ -18,6 +18,9 @@
               {{#unless @model.isOwner}}
                 <button type="button" {{on "click" (fn this.AddtoCart menu.id item.id item.name item.price)}} class="btn btn-primary float-end">Add to cart</button>
               {{/unless}}
+              {{#if  @model.isOwner}}
+                <button type="button" class="btn btn-link btn-sm float-end"><i class="fas fa-trash fa-lg"></i></button>
+              {{/if}}
               <li class="text-black menu_price">&#8377;{{item.price}}</li>
             </ul>
             <hr>
@@ -60,6 +63,9 @@
                         <label class="form-label" for="form3Example1cg">Description</label>
                       </div>
                     </form>
+                    {{#if this.isitemSaved}}
+                      <center><p class="text-success fs-6 mb-0 txt_weight">Item saved</p></center>
+                    {{/if}}
                     <script>
                       document.querySelectorAll('.form-outline').forEach((formOutline) => {
                       new mdb.Input(formOutline).init();
@@ -104,7 +110,10 @@
                 {{#if this.empty_categoryname}}
                   <p class="text-danger fs-6 txt_weight">Category name is required</p>
                 {{/if}}
-                </div>
+              </div>
+              {{#if this.iscategorySaved}}
+                <center><p class="text-success fs-6 mb-0 txt_weight">Category saved</p></center>
+              {{/if}}
               <script>
                 document.querySelectorAll('.form-outline').forEach((formOutline) => {
                 new mdb.Input(formOutline).init();

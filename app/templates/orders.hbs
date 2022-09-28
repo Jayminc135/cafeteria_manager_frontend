@@ -6,7 +6,8 @@
     <div class="d-flex flex-column order_wt">
       <div class="p-1">Customer id: {{order.user_id}}</div>
       <div class="p-1">Date: {{order.date}}</div> 
-      <div class="p-2"><mark>{{order.status}}</mark></div>
+      <div class="p-2"><mark id={{concat "status_" order.id}}>{{order.status}}</mark></div>
+      {{!-- <div class="p-2"><mark>{{order.status}}</mark></div> --}}
     </div>
   </button>
 
@@ -38,6 +39,54 @@
           {{/each}}
           <hr>
           <p class="float-end itemname_weight">Total: &#8377;{{this.total}}</p>
+          {{#unless this.isorderpending}}
+            {{#if @model.isCustomer}}
+              {{#unless this.isfeedbackgiven}}
+                <div class="pt-5 mt-5">
+                <p class="txt_weight m-3">Leave feedback about this order</p>
+                <div class="m-3 pt-2">
+                  <i id={{concat (concat "star_" order.id) 1}} class="fa fa-star clickable" {{on "click" this.star}}></i>
+                  <i id={{concat (concat "star_" order.id) 2}} class="fa fa-star clickable" {{on "click" this.star}}></i>
+                  <i id={{concat (concat "star_" order.id) 3}} class="fa fa-star clickable" {{on "click" this.star}}></i>
+                  <i id={{concat (concat "star_" order.id) 4}} class="fa fa-star clickable" {{on "click" this.star}}></i>
+                  <i id={{concat (concat "star_" order.id) 5}} class="fa fa-star clickable" {{on "click" this.star}}></i>
+                </div>
+                <form>
+                  <div class="form-outline m-3 pt-2 mb-4">
+                    <textarea class="form-control" id="{{concat "textarea_" order.id}}" rows="4"></textarea>
+                    <label class="form-label" for="form3Example1cg">Describe your experience</label>
+                  </div>
+                  <script>
+                    document.querySelectorAll('.form-outline').forEach((formOutline) => {
+                    new mdb.Input(formOutline).init();
+                    });
+                  </script>
+                </form>
+                <center><button type="button" {{on "click" (fn this.savefeedback order.id)}} class="btn btn-primary mb-2">Submit feedback</button></center>
+                {{#if this.isfeedbacksaved}}
+                  <center><p class="text-success fs-6 mt-2 mb-1 txt_weight">Thanks for your feedback</p></center>
+                {{/if}}
+                </div>
+              {{/unless}}
+            {{/if}}
+          {{/unless}}
+
+          {{#if @model.isOwner}}
+            {{#if this.isfeedbackgiven}}
+              <div class="pt-5 mt-5">
+                <p class="txt_weight m-3">Customer feedback about this order</p>
+                <div class="m-3 pt-2">
+                  {{#each this.filledstar}}
+                    <i class="fa fa-star clicked"></i>
+                  {{/each}}
+                  {{#each this.blankstar}}
+                    <i class="fa fa-star blankstar"></i>
+                  {{/each}}
+                </div>
+                <p class="m-3">Experience: {{order.experience}}</p>
+              </div>
+            {{/if}}
+          {{/if}}
         </div>
         {{#if this.isorderpending}}
           {{#unless @model.isCustomer}}

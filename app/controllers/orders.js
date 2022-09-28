@@ -9,6 +9,12 @@ export default class OrdersController extends Controller {
     @tracked total;
     @tracked isorderpending = false;
     @tracked username = "";
+    @tracked feedback_rating = 0; 
+    @tracked isfeedbacksaved = false;
+    @tracked isfeedbackgiven = false;
+    @tracked order = {};
+    @tracked filledstar = {};
+    @tracked blankstar = {}
     
     @action
     async fetchitems(orderid, orderstatus, userid) {
@@ -26,13 +32,6 @@ export default class OrdersController extends Controller {
         this.set("firstitem",orderitems[0]);
         this.set("items", orderitems);
 
-        if(orderstatus == 'pending delivery') {
-            this.set("isorderpending", true);
-        }
-        else {
-            this.set("isorderpending", false);
-        }
-
         let _role = localStorage.getItem("role");
         if(_role == "clerk")
             this.set("username", "Walk-in customer");
@@ -43,6 +42,43 @@ export default class OrdersController extends Controller {
             let user = await res.json();
                 this.set("username", user.first_name + ' ' + user.last_name);
         }
+
+        //fetch order
+        let res = await fetch(url + '/getorder?orderid=' + orderid);
+        let order = await res.json();
+
+        if(order.status == 'pending delivery') {
+            this.set("isorderpending", true);
+        }
+        else {
+            this.set("isorderpending", false);
+        }
+        
+        this.set("isfeedbackgiven", false);
+        if(order.rating != null || order.experience != null) {
+            this.set("isfeedbackgiven", true);
+            if(order.rating == null)
+                order.rating = 0;
+            this.filledstar = Array(order.rating).fill(0);
+            this.blankstar = Array(5 - order.rating).fill(0);
+        }
+
+        //set "Mark as delivered" checkbox not checked
+        if(document.getElementById('flexCheckDefault_' + orderid))
+            document.getElementById('flexCheckDefault_' + orderid).checked = false;
+
+        //set rating stars and experience input property
+        for(let i=1; i<=5; i++) {
+            var element = document.getElementById("star_" + orderid + i);
+            if(element)
+                element.classList.remove("clicked");
+        }
+        if(document.getElementById('textarea_' + orderid))
+            document.getElementById('textarea_' + orderid).value = "";
+        this.set("feedback_rating", 0);
+
+        //set feedback property
+        this.set('isfeedbacksaved', false);
     }
 
     @action
@@ -51,11 +87,48 @@ export default class OrdersController extends Controller {
         let checkBox = document.getElementById('flexCheckDefault_' + order_id);
         if(checkBox.checked) {
             this.set("isorderpending", false);
+            document.getElementById('status_' + order_id).innerHTML = "Delivered";
             const url = config.APP.URL;
             let response = await fetch(url + '/changeorderstatus/' + order_id, {
                 method: 'PUT'
             });
-            console.log(order_id);
+        }
+    }
+
+    @action
+    async savefeedback(order_id) {
+        let experience = document.getElementById('textarea_' + order_id).value.trim();
+        if(this.feedback_rating != 0 || experience != "") {
+            const url = config.APP.URL;
+            const feedback = {
+                rating: this.feedback_rating,
+                experience: experience
+            }
+            const response = await fetch(url + '/addfeedback/' + order_id, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(feedback)
+            });
+            if(response.statusText == "Created") {
+                this.set('isfeedbacksaved', true);
+            }
+        }
+    }
+
+    @action
+    star() {
+        let star_number = event.target.id;
+        let rating = star_number.slice(-1);
+        this.set("feedback_rating", rating);
+        
+        for(let i=1; i<=5; i++) {
+            var element = document.getElementById(star_number.substring(0, star_number.length - 1) + i);
+            element.classList.remove("clicked");
+        }
+
+        for(let i=1; i<=rating; i++) {
+            var element = document.getElementById(star_number.substring(0, star_number.length - 1) + i);
+            element.classList.add("clicked");
         }
     }
 }

@@ -12,3 +12,40 @@
 .order_wt {
     font-size: 14px;
 }
+
+/* .starstyle {
+    padding: 0;
+    border: none;
+    background: none;
+}
+
+.starstyle:hover{
+    color: green;
+}
+
+.checked:active {
+    color: green;
+}
+
+.checked:hover {
+    color: green;
+} */
+
+.clickable {
+    cursor: pointer;
+    color: white;
+    text-shadow: 0 0 1.6px #000;
+}
+
+.clicked {
+    color: green;
+}
+
+.clickable:hover {
+    color: green;
+}
+
+.blankstar {
+    color: white;
+    text-shadow: 0 0 1.6px #000;
+}
