@@ -18,9 +18,9 @@
               {{#unless @model.isOwner}}
                 <button type="button" {{on "click" (fn this.AddtoCart menu.id item.id item.name item.price)}} class="btn btn-primary float-end">Add to cart</button>
               {{/unless}}
-              {{#if  @model.isOwner}}
+              {{!-- {{#if  @model.isOwner}}
                 <button type="button" class="btn btn-link btn-sm float-end"><i class="fas fa-trash fa-lg"></i></button>
-              {{/if}}
+              {{/if}} --}}
               <li class="text-black menu_price">&#8377;{{item.price}}</li>
             </ul>
             <hr>
@@ -98,10 +98,6 @@
             <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-              {{!-- <div class="form-outline">
-                <Input type="text" id="menu" @value={{this.category_name}} class="form-control form-control-lg"/>
-                <label class="form-label" for="menu">Category name</label>
-              </div> --}}
               <div class="m-3">
                 <div class="form-outline">
                   <Input type="text" @value={{this.category_name}} class="form-control form-control-lg"/>

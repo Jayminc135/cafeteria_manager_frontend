@@ -9,11 +9,16 @@ export default class CartController extends Controller {
     
     @action
     async changeQuantity(cart_id) {
+        let quantity = event.target.value;
         const url = config.APP.URL;
-        const response = await fetch(url + '/updatequantity?cart_id=' + cart_id + '&quantity=' + event.target.value);
+        const response = await fetch(url + '/updatequantity?cart_id=' + cart_id + '&quantity=' + quantity);
         let price = await response.json();
         this.set("updated", true);
         this.set("TotalPrice", price);
+
+        //to not to display cartitem to user
+        if(quantity == 0)
+            document.getElementById('cartitem_' + cart_id).innerHTML = "";
     }
 
     @action

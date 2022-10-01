@@ -2,6 +2,7 @@
 <h2 class="title_cart">Cart</h2>
 <ul class="list-group list-group-light cartsz">
     {{#each @model.cart as |cart_item|}}
+    <div id={{concat "cartitem_" cart_item.id}}>
         <li class="list-group-item d-flex justify-content-between align-items-center">
             <div>
                 <div class="items cart_name">{{cart_item.menu_item_name}}</div>
@@ -9,17 +10,22 @@
             </div>
             <input type="number" min="0" class="ml-auto quantitybtn" {{on "change" (fn this.changeQuantity cart_item.id)}} value={{cart_item.quantity}}>
         </li>
+    </div>
     {{/each}}
 </ul>
 {{#unless @model.isCartEmpty}}
-    <h5 class="price">Total Price: 
-        {{#if this.updated}}
-            &#8377;{{this.TotalPrice}}
-        {{else}}
-            &#8377;{{@model.price}}
+    {{#if this.updated}}
+        {{#if this.TotalPrice}}
+            <h5 class="price">Total Price: 
+                &#8377;{{this.TotalPrice}}</h5>
+            <br/><br/><br/>
+            <center><button type="button" {{on "click" this.redirect}} class="btn btn-primary mb-5">Place the order</button></center>
         {{/if}}
-    </h5>
-    <br/><br/><br/>
-    <center><button type="button" {{on "click" this.redirect}} class="btn btn-primary">Place the order</button></center>
+    {{else}}
+        <h5 class="price">Total Price: 
+            &#8377;{{@model.price}}</h5>
+        <br/><br/><br/>
+        <center><button type="button" {{on "click" this.redirect}} class="btn btn-primary mb-5">Place the order</button></center>
+    {{/if}}
 {{/unless}}
 {{outlet}}

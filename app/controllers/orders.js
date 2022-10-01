@@ -17,7 +17,7 @@ export default class OrdersController extends Controller {
     @tracked blankstar = {}
     
     @action
-    async fetchitems(orderid, orderstatus, userid) {
+    async fetchitems(orderid, userid) {
         const url = config.APP.URL;
 
         //fetch orderitems
@@ -46,7 +46,7 @@ export default class OrdersController extends Controller {
         //fetch order
         let res = await fetch(url + '/getorder?orderid=' + orderid);
         let order = await res.json();
-
+        
         if(order.status == 'pending delivery') {
             this.set("isorderpending", true);
         }
