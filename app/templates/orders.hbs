@@ -1,9 +1,10 @@
 <Header/>
-<h2 class="title_cart">Orders</h2>
+<h2 class="title_order">Orders</h2>
 <div class="ordersContainer mb-5">
 {{#each @model.orders as |order|}}
   <button type="button" {{on "click" (fn this.fetchitems order.id order.user_id)}} class="btn btn-primary btn_order mt-3" data-mdb-toggle="modal" data-mdb-target={{concat "#Modal_" order.id}}>
     <div class="d-flex flex-column order_wt">
+      <div class="p-1">Order No: {{order.id}}</div>
       <div class="p-1">Customer id: {{order.user_id}}</div>
       <div class="p-1">Date: {{order.date}}</div> 
       <div class="p-2"><mark id={{concat "status_" order.id}}>{{order.status}}</mark></div>
@@ -21,7 +22,7 @@
           <div class="row">
             <ul class="list-unstyled">
               <li class="text-black">Customer: {{this.username}}</li>
-              <li class="text-muted mt-1"><span class="text-black">Invoice</span> #{{order.id}}</li>
+              <li class="text-muted mt-1"><span class="text-black">Order No </span> #{{order.id}}</li>
               <li class="text-black mt-1">{{order.date}}</li>
             </ul>
           </div>
@@ -42,28 +43,30 @@
             {{#if @model.isCustomer}}
               {{#unless this.isfeedbackgiven}}
                 <div class="pt-5 mt-5">
-                <p class="txt_weight m-3">Leave feedback about this order</p>
-                <div class="m-3 pt-2">
-                  <i id={{concat (concat "star_" order.id) 1}} class="fa fa-star clickable" {{on "click" this.star}}></i>
-                  <i id={{concat (concat "star_" order.id) 2}} class="fa fa-star clickable" {{on "click" this.star}}></i>
-                  <i id={{concat (concat "star_" order.id) 3}} class="fa fa-star clickable" {{on "click" this.star}}></i>
-                  <i id={{concat (concat "star_" order.id) 4}} class="fa fa-star clickable" {{on "click" this.star}}></i>
-                  <i id={{concat (concat "star_" order.id) 5}} class="fa fa-star clickable" {{on "click" this.star}}></i>
-                </div>
-                <form>
-                  <div class="form-outline m-3 pt-2 mb-4">
-                    <textarea class="form-control" id="{{concat "textarea_" order.id}}" rows="4"></textarea>
-                    <label class="form-label" for="form3Example1cg">Describe your experience</label>
+                {{#unless this.isfeedbacksaved}}
+                  <p class="txt_weight m-3">Leave feedback about this order</p>
+                  <div class="m-3 pt-2">
+                    <i id={{concat (concat "star_" order.id) 1}} class="fa fa-star clickable" {{on "click" this.star}}></i>
+                    <i id={{concat (concat "star_" order.id) 2}} class="fa fa-star clickable" {{on "click" this.star}}></i>
+                    <i id={{concat (concat "star_" order.id) 3}} class="fa fa-star clickable" {{on "click" this.star}}></i>
+                    <i id={{concat (concat "star_" order.id) 4}} class="fa fa-star clickable" {{on "click" this.star}}></i>
+                    <i id={{concat (concat "star_" order.id) 5}} class="fa fa-star clickable" {{on "click" this.star}}></i>
                   </div>
-                  <script>
-                    document.querySelectorAll('.form-outline').forEach((formOutline) => {
-                    new mdb.Input(formOutline).init();
-                    });
-                  </script>
-                </form>
-                <center><button type="button" {{on "click" (fn this.savefeedback order.id)}} class="btn btn-primary mb-2">Submit feedback</button></center>
+                  <form>
+                    <div class="form-outline m-3 pt-2 mb-4">
+                      <textarea class="form-control" id="{{concat "textarea_" order.id}}" rows="4"></textarea>
+                      <label class="form-label" for="form3Example1cg">Describe your experience</label>
+                    </div>
+                    <script>
+                      document.querySelectorAll('.form-outline').forEach((formOutline) => {
+                      new mdb.Input(formOutline).init();
+                      });
+                    </script>
+                  </form>
+                  <center><button type="button" {{on "click" (fn this.savefeedback order.id)}} class="btn btn-primary mb-2">Submit feedback</button></center>
+                {{/unless}}
                 {{#if this.isfeedbacksaved}}
-                  <center><p class="text-success fs-6 mt-2 mb-1 txt_weight">Thanks for your feedback</p></center>
+                  <center><p class="text-success fs-10 mt-2 mb-1 txt_weight">Thanks for your feedback</p></center>
                 {{/if}}
                 </div>
               {{/unless}}
@@ -73,7 +76,7 @@
           {{#if @model.isOwner}}
             {{#if this.isfeedbackgiven}}
               <div class="pt-5 mt-5">
-                <p class="txt_weight m-3">Customer feedback about this order</p>
+                <p class="txt_weight fs-5 m-3">Customer feedback about this order</p>
                 <div class="m-3 pt-2">
                   {{#each this.filledstar}}
                     <i class="fa fa-star clicked"></i>
@@ -112,7 +115,6 @@
       </div>
     </div>
   </div>
-  <br/>
 {{/each}}
 </div>
 {{outlet}}

@@ -1,6 +1,47 @@
 <Header/>
 <h2 class="title_menu">Menu</h2>
 <div class="accordion accordion-flush accordionsz" id="accordionFlushExample">
+  {{#if @model.isOwner}}
+    <center>
+      <button type="button" {{on "click" this.setcategory}} class="btn btn-primary addcategory_btn" data-mdb-toggle="modal" data-mdb-target="#exampleModal">Add category</button>
+    </center>
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Add category</h5>
+            <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+              {{#unless this.iscategorySaved}}
+                <div class="m-3">
+                  <div class="form-outline">
+                    <Input type="text" @value={{this.category_name}} class="form-control form-control-lg"/>
+                    <label class="form-label" for="typeText">Category name</label>
+                  </div>
+                  <script>
+                    document.querySelectorAll('.form-outline').forEach((formOutline) => {
+                    new mdb.Input(formOutline).init();
+                    });
+                  </script>
+                  {{#if this.empty_categoryname}}
+                    <p class="text-danger fs-6 txt_weight">Category name is required</p>
+                  {{/if}}
+                </div>
+              {{/unless}}
+              {{#if this.iscategorySaved}}
+                <center><p class="text-success fs-10 mt-3 mb-3 txt_weight">Category saved</p></center>
+              {{/if}}
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">Close</button>
+            <button type="button" {{on "click" this.saveCategory}} class="btn btn-primary">Save changes</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  {{/if}}
 
   {{#each @model.menucategories as |menu|}}
     <div class="accordion-item">
@@ -39,38 +80,50 @@
                     <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
                   </div>
                   <div class="modal-body">
-                    <form>
-                      <div class="m-3 mb-4">
-                        <div class="form-outline">
-                          <Input type="text" @value={{this.item_name}} class="form-control form-control-lg"/>
-                          <label class="form-label" for="form3Example1cg">Item name</label>
+                    {{#unless this.isitemSaved}}
+                      <form>
+                        <div class="m-3 mb-4">
+                          <div class="form-outline">
+                            <Input type="text" @value={{this.item_name}} class="form-control form-control-lg"/>
+                            <label class="form-label" for="form3Example1cg">Item name</label>
+                          </div>
+                          <script>
+                            document.querySelectorAll('.form-outline').forEach((formOutline) => {
+                            new mdb.Input(formOutline).init();
+                            });
+                          </script>
+                          {{#if this.empty_itemname}}
+                            <p class="text-danger fs-6 txt_weight">Item name is required</p>
+                          {{/if}}
                         </div>
-                        {{#if this.empty_itemname}}
-                          <p class="text-danger fs-6 txt_weight">Item name is required</p>
-                        {{/if}}
-                      </div>
-                      <div class="m-3 mb-4">
-                        <div class="form-outline">
-                          <Input type="text" @value={{this.price}} class="form-control form-control-lg"/>
-                          <label class="form-label" for="form3Example1cg">Price</label>
+                        <div class="m-3 mb-4">
+                          <div class="form-outline">
+                            <Input type="text" @value={{this.price}} class="form-control form-control-lg"/>
+                            <label class="form-label" for="form3Example1cg">Price</label>
+                          </div>
+                          <script>
+                            document.querySelectorAll('.form-outline').forEach((formOutline) => {
+                            new mdb.Input(formOutline).init();
+                            });
+                          </script>
+                          {{#if this.empty_itemprice}}
+                            <p class="text-danger fs-6 txt_weight">Price is required</p>
+                          {{/if}}
                         </div>
-                        {{#if this.empty_itemprice}}
-                          <p class="text-danger fs-6 txt_weight">Price is required</p>
-                        {{/if}}
-                      </div>
-                      <div class="form-outline m-3 mb-4">
-                        <textarea class="form-control" id="{{concat "textarea_" menu.id}}" rows="4"></textarea>
-                        <label class="form-label" for="form3Example1cg">Description</label>
-                      </div>
-                    </form>
+                        <div class="form-outline m-3 mb-4">
+                          <textarea class="form-control" id="{{concat "textarea_" menu.id}}" rows="4"></textarea>
+                          <label class="form-label" for="form3Example1cg">Description</label>
+                        </div>
+                        <script>
+                          document.querySelectorAll('.form-outline').forEach((formOutline) => {
+                          new mdb.Input(formOutline).init();
+                          });
+                        </script>
+                      </form>
+                    {{/unless}}
                     {{#if this.isitemSaved}}
-                      <center><p class="text-success fs-6 mb-0 txt_weight">Item saved</p></center>
+                      <center><p class="text-success fs-10 mt-3 mb-3 txt_weight">Item saved</p></center>
                     {{/if}}
-                    <script>
-                      document.querySelectorAll('.form-outline').forEach((formOutline) => {
-                      new mdb.Input(formOutline).init();
-                      });
-                    </script>
                   </div>
                   <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">Close</button>
@@ -80,52 +133,15 @@
               </div>
             </div>
           {{/if}}
-
+          
         </div>
       </div>
     </div>
   {{/each}}
-  {{#if @model.isOwner}}
-    <center>
-      <button type="button" {{on "click" this.setcategory}} class="btn btn-primary addcategory_btn" data-mdb-toggle="modal" data-mdb-target="#exampleModal">Add category</button>
-    </center>
-
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Add category</h5>
-            <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-              <div class="m-3">
-                <div class="form-outline">
-                  <Input type="text" @value={{this.category_name}} class="form-control form-control-lg"/>
-                  <label class="form-label" for="typeText">Category name</label>
-                </div>
-                {{#if this.empty_categoryname}}
-                  <p class="text-danger fs-6 txt_weight">Category name is required</p>
-                {{/if}}
-              </div>
-              {{#if this.iscategorySaved}}
-                <center><p class="text-success fs-6 mb-0 txt_weight">Category saved</p></center>
-              {{/if}}
-              <script>
-                document.querySelectorAll('.form-outline').forEach((formOutline) => {
-                new mdb.Input(formOutline).init();
-                });
-              </script>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">Close</button>
-            <button type="button" {{on "click" this.saveCategory}} class="btn btn-primary">Save changes</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  {{/if}}
 </div>
 {{#unless @model.isOwner}}
-  <center><button type="button" {{on "click" this.redirect}} class="btn btn-primary btnsz">Checkout</button></center>
+  {{#unless @model.ismenuempty}}
+    <center><button type="button" {{on "click" this.redirect}} class="btn btn-primary btnsz">Checkout</button></center>
+  {{/unless}}
 {{/unless}}
 {{outlet}}

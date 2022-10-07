@@ -86,12 +86,11 @@
 
 
   .accordionsz {
-    margin: 20px 400px 0 400px;
+    margin: 20px 400px 80px 400px;
   }
 
   .btnsz {
-    margin-top: 40px;
-    margin-bottom: 4%;
+    margin-bottom: 5%;
   }
 
   .title_menu {
@@ -111,7 +110,7 @@
 
   .addcategory_btn {
     margin-top: 20px;
-    margin-bottom: 5%;
+    margin-bottom: 3%;
   }
 
   .itemname_weight {

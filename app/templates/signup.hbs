@@ -11,7 +11,6 @@
                 <div class="form-outline">
                   <Input type="text" @value={{this.first_name}} class="form-control form-control-lg" required/>
                   <label class="form-label" for="form3Example1cg">First Name</label>
-                  {{!-- <div class="text-danger">Required field</div> --}}
                 </div>
                 {{#if this.invalid_firstname}}
                   <p class="text-danger fs-6 txt_weight">First name is required</p>
@@ -45,6 +44,7 @@
                   <p class="text-danger fs-6 txt_weight">Password should be minimum of length 6</p>
                 {{/if}}
               </div>
+              <Inputoutline/>
 
               <div class="d-flex justify-content-center">
                 <button type="button" {{on "click" this.createuser}}

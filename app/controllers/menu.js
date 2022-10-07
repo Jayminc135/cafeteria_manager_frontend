@@ -47,9 +47,10 @@ export default class MenuController extends Controller {
     @action
     setitem(category_id) {
         let description = document.getElementById('textarea_' + category_id);
+        if(description)
+            description.value = "";
         this.set("item_name", "");
         this.set("price", "");
-        description.value = "";
         this.set('isitemSaved', false);
         this.set('empty_itemname', false);
         this.set('empty_itemprice', false);
