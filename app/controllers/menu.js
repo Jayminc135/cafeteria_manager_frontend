@@ -87,6 +87,7 @@ export default class MenuController extends Controller {
             });
             if(response.statusText == "Created") {
                 this.set('isitemSaved', true);
+                this.fetchitems(category_id);
             }
         }
     }
@@ -113,6 +114,7 @@ export default class MenuController extends Controller {
             });
             if(response.statusText == "Created") {
                 this.set('iscategorySaved', true);
+                this.send('refreshCurrentRoute');
             }
         }
     }

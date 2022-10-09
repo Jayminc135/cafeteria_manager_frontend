@@ -1,3 +1,7 @@
+.welcome {
+    margin-top: 7%;
+}
+
 .card {
     border-radius: 15px;
 }
@@ -5,6 +9,3 @@
 .txt_weight {
     font-weight: 8;
 }
-/* .cont_size {
-   margin-top: 10px;
-} */

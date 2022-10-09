@@ -29,4 +29,10 @@ export default class MenuRoute extends Route {
             isOwner: isOwner
         });
     }
+
+    actions =  {
+        refreshCurrentRoute(){
+         this.refresh();
+        }
+       }
 }

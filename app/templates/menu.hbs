@@ -1,48 +1,52 @@
 <Header/>
 <h2 class="title_menu">Menu</h2>
-<div class="accordion accordion-flush accordionsz" id="accordionFlushExample">
-  {{#if @model.isOwner}}
-    <center>
-      <button type="button" {{on "click" this.setcategory}} class="btn btn-primary addcategory_btn" data-mdb-toggle="modal" data-mdb-target="#exampleModal">Add category</button>
-    </center>
 
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Add category</h5>
-            <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-              {{#unless this.iscategorySaved}}
-                <div class="m-3">
-                  <div class="form-outline">
-                    <Input type="text" @value={{this.category_name}} class="form-control form-control-lg"/>
-                    <label class="form-label" for="typeText">Category name</label>
-                  </div>
-                  <script>
-                    document.querySelectorAll('.form-outline').forEach((formOutline) => {
-                    new mdb.Input(formOutline).init();
-                    });
-                  </script>
-                  {{#if this.empty_categoryname}}
-                    <p class="text-danger fs-6 txt_weight">Category name is required</p>
-                  {{/if}}
-                </div>
-              {{/unless}}
-              {{#if this.iscategorySaved}}
-                <center><p class="text-success fs-10 mt-3 mb-3 txt_weight">Category saved</p></center>
+{{#if @model.isOwner}}
+  <center>
+    <button type="button" {{on "click" this.setcategory}} class="btn btn-primary addcategory_btn" data-mdb-toggle="modal" data-mdb-target="#exampleModal">Add category</button>
+  </center>
+
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Add category</h5>
+          <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          {{#unless this.iscategorySaved}}
+            <div class="m-3">
+              <div class="form-outline">
+                <Input type="text" @value={{this.category_name}} class="form-control form-control-lg"/>
+                <label class="form-label" for="typeText">Category name</label>
+              </div>
+              <script>
+                document.querySelectorAll('.form-outline').forEach((formOutline) => {
+                new mdb.Input(formOutline).init();
+                });
+              </script>
+              {{#if this.empty_categoryname}}
+                <p class="text-danger fs-6 txt_weight">Category name is required</p>
               {{/if}}
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">Close</button>
-            <button type="button" {{on "click" this.saveCategory}} class="btn btn-primary">Save changes</button>
-          </div>
+            </div>
+          {{/unless}}
+
+          {{#if this.iscategorySaved}}
+            <center><p class="text-success fs-10 mt-3 mb-3 txt_weight">Category saved</p></center>
+          {{/if}}
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">Close</button>
+          {{#unless this.iscategorySaved}}
+            <button type="button" id="category_save" {{on "click" this.saveCategory}} class="btn btn-primary">Save</button>
+          {{/unless}}
         </div>
       </div>
     </div>
-  {{/if}}
+  </div>
+{{/if}}
 
+<div class="accordion accordion-flush accordionsz" id="accordionFlushExample">
   {{#each @model.menucategories as |menu|}}
     <div class="accordion-item">
       <h2 class="accordion-header" id = {{concat "flush-heading_" menu.id}}>
@@ -59,7 +63,7 @@
               {{#unless @model.isOwner}}
                 <button type="button" {{on "click" (fn this.AddtoCart menu.id item.id item.name item.price)}} class="btn btn-primary float-end">Add to cart</button>
               {{/unless}}
-              {{!-- {{#if  @model.isOwner}}
+              {{!-- {{#if @model.isOwner}}
                 <button type="button" class="btn btn-link btn-sm float-end"><i class="fas fa-trash fa-lg"></i></button>
               {{/if}} --}}
               <li class="text-black menu_price">&#8377;{{item.price}}</li>
@@ -121,13 +125,16 @@
                         </script>
                       </form>
                     {{/unless}}
+
                     {{#if this.isitemSaved}}
                       <center><p class="text-success fs-10 mt-3 mb-3 txt_weight">Item saved</p></center>
                     {{/if}}
                   </div>
                   <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">Close</button>
-                    <button type="button" {{on "click" (fn this.saveItem menu.id)}} class="btn btn-primary">Save changes</button>
+                    {{#unless this.isitemSaved}}
+                      <button type="button" {{on "click" (fn this.saveItem menu.id)}} class="btn btn-primary">Save</button>
+                    {{/unless}}
                   </div>
                 </div>
               </div>

@@ -12,7 +12,7 @@ export default class OrdersRoute extends Route {
     async model() {
         const url = config.APP.URL;
         let response;
-        if(localStorage.getItem('role') == 'owner')
+        if(localStorage.getItem('role') != 'customer')
             response = await fetch(url + '/getorders');
         else
             response = await fetch(url + '/getorders?userid=' + localStorage.getItem('UserId'));

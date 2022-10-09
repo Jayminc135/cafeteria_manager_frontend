@@ -14,7 +14,8 @@ export default class OrdersController extends Controller {
     @tracked isfeedbackgiven = false;
     @tracked order = {};
     @tracked filledstar = {};
-    @tracked blankstar = {}
+    @tracked blankstar = {};
+    @tracked experience = "";
     
     @action
     async fetchitems(orderid, userid) {
@@ -32,20 +33,17 @@ export default class OrdersController extends Controller {
         this.set("firstitem",orderitems[0]);
         this.set("items", orderitems);
 
-        let _role = localStorage.getItem("role");
-        if(_role == "clerk")
+        //set customer name of order
+        let res = await fetch(url + '/getuser?userid=' + userid);
+        let user = await res.json();
+        if(user.role == "clerk")
             this.set("username", "Walk-in customer");
         else
-        {
-            //fetch user of the order
-            let res = await fetch(url + '/getuser?userid=' + userid);
-            let user = await res.json();
-                this.set("username", user.first_name + ' ' + user.last_name);
-        }
+            this.set("username", user.first_name + ' ' + user.last_name);
 
         //fetch order
-        let res = await fetch(url + '/getorder?orderid=' + orderid);
-        let order = await res.json();
+        let res_data = await fetch(url + '/getorder?orderid=' + orderid);
+        let order = await res_data.json();
         
         if(order.status == 'pending delivery') {
             this.set("isorderpending", true);
@@ -61,6 +59,7 @@ export default class OrdersController extends Controller {
                 order.rating = 0;
             this.filledstar = Array(order.rating).fill(0);
             this.blankstar = Array(5 - order.rating).fill(0);
+            this.experience = order.experience;
         }
 
         //set "Mark as delivered" checkbox not checked

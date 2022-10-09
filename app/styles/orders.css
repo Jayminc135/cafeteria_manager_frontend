@@ -7,8 +7,6 @@
 }
 
 .btn_order {
-    /* width: 200px;
-    height: 90px; */
     width: 255px;
     height: 140px;
     margin-right: 15px;
@@ -17,24 +15,6 @@
 .order_wt {
     font-size: 14px;
 }
-
-/* .starstyle {
-    padding: 0;
-    border: none;
-    background: none;
-}
-
-.starstyle:hover{
-    color: green;
-}
-
-.checked:active {
-    color: green;
-}
-
-.checked:hover {
-    color: green;
-} */
 
 .clickable {
     cursor: pointer;
