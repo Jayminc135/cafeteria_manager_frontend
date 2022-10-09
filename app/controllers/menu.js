@@ -37,11 +37,6 @@ export default class MenuController extends Controller {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(cart)
         });
-        if (response.statusText == "Created") {
-            console.log("Created");
-        } else {
-            console.log("Not Created");
-        }
     }
 
     @action

@@ -30,9 +30,9 @@ export default class MenuRoute extends Route {
         });
     }
 
-    actions =  {
-        refreshCurrentRoute(){
-         this.refresh();
+    actions = {
+        refreshCurrentRoute() {
+            this.refresh();
         }
-       }
+    }
 }
