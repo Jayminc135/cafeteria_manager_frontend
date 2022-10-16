@@ -11,7 +11,17 @@ export default class CartController extends Controller {
     async changeQuantity(cart_id) {
         let quantity = event.target.value;
         const url = config.APP.URL;
-        const response = await fetch(url + '/updatequantity?cart_id=' + cart_id + '&quantity=' + quantity);
+
+        let cart = {
+            cart_id: cart_id,
+            user_id: localStorage.getItem('UserId'),
+            quantity: quantity
+        }
+        const response = await fetch(url + '/updatequantity', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(cart)
+        });
         let price = await response.json();
         this.set("updated", true);
         this.set("TotalPrice", price);
