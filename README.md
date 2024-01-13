@@ -1,7 +1,10 @@
 # cafeteria-manager-frontend
 
 This README outlines the details of collaborating on this Ember application.
-A short introduction of this app could easily go here.
+
+Hosted web app - https://cafeteria-management-system.netlify.app/
+
+### Backend Repo - https://github.com/Jayminc135/cafeteria_manager
 
 ## Prerequisites
 
