@@ -4,7 +4,7 @@ This README outlines the details of collaborating on this Ember application.
 
 Hosted web app - https://cafeteria-management-system.netlify.app/
 
-### Backend Repo - https://github.com/Jayminc135/cafeteria_manager
+Backend Repository - https://github.com/Jayminc135/cafeteria_manager
 
 ## Prerequisites
 
