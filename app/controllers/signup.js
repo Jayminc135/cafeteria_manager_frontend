@@ -52,7 +52,6 @@ export default class SignupController extends Controller {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(user)
             });
-          console.log(response.statusText);
             if (response.statusText == "Created") {
                 this.transitionToRoute('signin');
             } else {
